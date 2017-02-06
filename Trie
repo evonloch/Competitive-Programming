@@ -1,0 +1,95 @@
+
+//uva 11362
+#include <bits/stdc++.h>
+
+
+using namespace std;
+
+struct node
+{
+
+    bool mark, cntnu;
+
+    node * next[10];
+
+    node()
+    {
+        mark = 0;
+        cntnu=0;
+
+        for(int i = 0 ; i< 10 ; i++) next[i] = NULL;
+    }
+
+} *root;
+
+bool f ;
+void insert(char *ch)
+{
+    node *curr = root;
+
+    while(*ch!='\0')
+    {
+
+        if(curr->mark) f=false;
+        int id  = *ch-'0';
+
+        if(curr->next[id]==NULL) curr->next[id] = new node();
+        curr->cntnu = 1;
+        curr = curr->next[id];
+
+
+        ch++;
+    }
+
+    curr->mark = 1;
+    if(curr->cntnu) f=false;
+
+}
+
+void del(node * curr)
+{
+    for(int i = 0 ; i<10; i++)
+        if(curr->next[i]) del(curr->next[i]);
+
+    delete(curr);
+}
+
+int main()
+{
+    int test, n , cas = 0 ;
+
+    char ch [ 20];
+
+    scanf("%d",&test);
+
+    while(test--)
+    {
+        scanf("%d",&n);
+
+
+        root = new node();
+        f = true;
+        getchar();
+
+        while(n--)
+        {
+            gets(ch);
+
+            //ch[strlen(ch)]='\0';
+            //cout<<ch<<endl;
+            if(f)insert(ch);
+
+
+
+        }
+
+        printf("Case %d: ",++cas);
+        if(f)
+            printf("YES\n");
+        else
+            printf("NO\n");
+        del(root);
+    }
+
+
+}
