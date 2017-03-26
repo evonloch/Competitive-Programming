@@ -1,0 +1,8 @@
+/home/acm/Desktop/Palash/Cf/virtual/666/A.cpp: In function ‘int main(int, const char**)’:
+/home/acm/Desktop/Palash/Cf/virtual/666/A.cpp:111:15: error: ‘it’ does not name a type
+     for (auto it = result.begin(); it != result.end() ; it++)
+               ^
+/home/acm/Desktop/Palash/Cf/virtual/666/A.cpp:111:36: error: expected ‘;’ before ‘it’
+     for (auto it = result.begin(); it != result.end() ; it++)
+                                    ^
+/home/acm/Desktop/Palash/Cf/virtual/666/A.cpp:111:36: error: ‘it’ was not declared in this scope
