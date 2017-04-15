@@ -1,0 +1,119 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+struct Disjointset{
+
+    int node;
+
+    vector<int> parent, rank;
+
+    Disjointset(int _node)
+    {
+        node = _node;
+        
+        parent = vector <int> parent(node+2);
+
+        for(int i = 1; i<=node; i++) parent[i] = i;
+
+        rank =  vector <int> (node+2);
+    }
+    
+    int find(int a)
+    {
+        if(a == parent[a]) return a;
+        
+        parent[a] = find(parent[a]);
+        
+        return parent[a];
+        
+    }
+    
+    void union(int a, int b)
+    {
+        a = find(a);
+        b = find(b);
+        
+        
+        
+        if( a!= b ) 
+        {
+            if(rank[a] > rank[b])
+            {
+                parent[b] = a;
+               
+            }
+            
+            else
+            {
+                parent[a] = b;
+                if(rank[a] == rank[b])
+                        rank[b] ++;
+            }
+        }
+    }
+
+
+
+
+};
+
+
+
+struct krushkal{
+
+    int  m, mst, n;
+    Disjointset d ;
+    vector<pair<int, pair<int,int> > > edge;
+    
+    krushkal(int _m, _n)
+    {
+        m = _m;
+        n = _n;
+        mst = 0;
+        
+        d = Disjointset(n);
+        
+        for(int i = 0; i<m; i++)
+        {
+            int cost, u, v;
+            
+            cin>>cost>>u>>v;
+            
+            edge.push_back({cost,{u,v}});
+        }
+    }
+    
+   
+    
+    int finding_mst()
+    {
+        mst = 0;
+        sort(edge.begin(), edge.end());
+        
+        for(int i = 0; i<m; i++)
+        {
+            int value = edge[i].first, u = edge[i].second.first, v = edge[i].second.second;
+            
+            u = d.find(u);
+            v = d.find(v);
+            
+            if(u!=v)
+            {
+                d.union(u,v);
+                
+                mast += value;
+            }
+        }
+        
+        return mst;
+    }
+    
+};
+
+
+int main()
+{
+
+
+}
