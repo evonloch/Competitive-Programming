@@ -1,0 +1,135 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define maxn 100005
+
+vector<int>tree [5*maxn];
+
+vector<int> arr;
+
+#define all(c) c.begin(), c.end()
+
+void build(int node, int l, int  r)
+{
+    if( l == r)
+    {
+        tree[node].push_back (arr[l]);
+        return;
+    }
+
+
+    int mid = ( l+r ) / 2;
+
+    int lson = 2*node + 1, rson = 2*node + 2;
+
+    build (lson, l, mid ) ;
+    build (rson, mid+1, r);
+
+    merge (tree[lson].begin(), tree[lson].end(), tree[rson].begin(), tree[rson].end(), back_inserter(tree[node]) );
+
+    return;
+
+}
+
+int total, lower;
+
+void query (int node, int L, int R, int l, int r, int num)
+{
+    vector<int>a;
+    if( L > r or R < l) return ;
+
+    if( L >= l && R <= r)
+    {
+        int l = lower_bound(all(tree[node]), num) - tree[node].begin();
+        int u = upper_bound(all(tree[node]), num) - tree[node].begin();
+
+        
+            lower += l;
+            total += (u-l);
+        
+
+        return;
+
+    }
+
+    int mid = ( L + R ) / 2;
+
+    int lson = 2 * node + 1;
+    int rson = 2 * node + 2;
+
+    int v1,v2, ans = 0;
+
+     query(lson, L, mid, l, r , num );
+     query(rson, mid+1, R, l, r, num);
+
+   
+}
+
+int main()
+{
+    int n, m;
+
+    scanf("%d %d", &n, &m);
+
+    for(int i = 0; i < n; i++)
+    {
+        int x;
+        scanf("%d", &x);
+
+        arr.push_back(x);
+    }
+
+    build(0, 0, n-1);
+
+    while(m--)
+    {
+        int l, r, k;
+
+       
+
+        scanf("%d %d %d", &l, &r, &k);
+
+        int high = 1000000000+2, low = -1000000000-2, mid, ans ;
+
+        while(low <= high)
+        {
+            lower = 0, total = 0;
+
+            mid = (high + low)/2;
+
+           
+
+
+            query(0, 0, n-1, l-1, r-1, mid);
+
+
+
+            if(k <= lower)
+            {
+                high = mid-1;
+            }
+
+            else if ( k > (lower + total))
+            {
+                /* code */
+
+                low = mid + 1;
+            }
+
+            else
+            {
+                ans = mid;
+
+                break;
+            }
+
+           
+        }
+
+        printf("%d\n", ans);
+        
+    }
+
+
+}
